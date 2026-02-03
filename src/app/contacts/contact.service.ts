@@ -16,13 +16,12 @@ export class ContactService {
     getContacts(): Contact[] {
         return this.contacts.slice(); // Return a copy of the contacts array
     }
-
-getContact(id: string): Contact | null {
-    for (let contact of this.contacts) {
-        if (contact.id === id) {
-            return contact;
+    getContact(id: string): Contact | undefined {
+        for (let contact of this.contacts) {
+            if (contact.id === id) {
+                return contact;
             }
         }
-        return null;
+        return undefined; // Return undefined if contact not found
     }
-}   
+}
