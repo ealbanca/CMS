@@ -1,12 +1,11 @@
 // This is the model class for the Contact
-export class Contact{
-
-    constructor(public id: number, 
-        public name: string, 
-        public email: string, 
+  export class Contact {
+     constructor (
+        public id: string,
+        public name: string,
+        public email: string,
         public phone: string,
         public imageUrl: string,
-        public group: Contact[] = []){
-
-    }
-}
+        public group: Contact[]
+     ) {}
+  }
