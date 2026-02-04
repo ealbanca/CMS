@@ -19,11 +19,6 @@ export class ContactService {
         return this.contacts.slice(); // Return a copy of the contacts array
     }
     getContact(id: string): Contact | undefined {
-        for (let contact of this.contacts) {
-            if (contact.id === id) {
-                return contact;
-            }
-        }
-        return undefined; // Return undefined if contact not found
+        return this.contacts.find(contact => contact.id === id);
     }
 }

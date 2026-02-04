@@ -18,11 +18,6 @@ export class DocumentService {
     }
 
     getDocument(id: string): Document | undefined {
-        for (let document of this.documents) {
-            if (document.id === id) {
-                return document;
-            }
-        }  
-        return undefined; // Return undefined if document not found
+        return this.documents.find(document => document.id === id);
     }
 }
