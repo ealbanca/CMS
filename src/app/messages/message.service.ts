@@ -1,8 +1,10 @@
+import { EventEmitter } from '@angular/core';
 import{ Message } from './message.model';
 import { MOCKMESSAGES } from './MOCKMESSAGES';
 
 export class MessageService {
-    messages: Message[] = [];
+    messageChangedEvent = new EventEmitter<Message[]>();
+    private messages: Message[] = [];
 
     constructor(){
         this.messages = MOCKMESSAGES; // Initialize with mock data from file
@@ -13,5 +15,10 @@ export class MessageService {
     }
     getMessage(id: string): Message | undefined {
         return this.messages.find(message => message.id === id);
+    }
+
+    addMessage(message: Message){
+        this.messages.push(message);
+        this.messageChangedEvent.emit(this.messages.slice());
     }
 }
