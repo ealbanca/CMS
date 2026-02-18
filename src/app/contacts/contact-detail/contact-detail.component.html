@@ -6,7 +6,7 @@
                 <div class="clearfix"></div>
                 <img [src]="contact.imageUrl" alt="{{ contact.name }}" class="img-responsive pull-left" style="max-height: 60px;">
                 <div class="pull-right">
-                    <a class="btn btn-primary" href="#">Edit</a>
+                    <a class="btn btn-primary" [routerLink]="['/contacts', contact.id, 'edit']">Edit</a>
                     <a class="btn btn-danger" href="#">Delete</a>
                 </div>
             </div>

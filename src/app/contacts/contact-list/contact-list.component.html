@@ -3,14 +3,9 @@
         <div class="panel panel-default">
             <div class="panel-heading clearfix">
                 <h1 class="panel-title pull-left" style="font-size: 24px; margin: 0;">Contacts</h1>
-                <a class="btn btn-success pull-right" href="#">New Contact</a>
+                <a class="btn btn-success pull-right" [routerLink]="['/contacts', 'new']">New Contact</a>
             </div>
         <div class="panel-body">
-           <cms-contact-item
-            *ngFor="let contactElement of contacts"
-            [contact]="contactElement"
-            (contactSelected)="onSelected(contactElement)">
-           </cms-contact-item>
         </div>
         </div>
     </div>
