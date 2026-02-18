@@ -5,7 +5,7 @@ import { DocumentService } from '../document.service';
 @Component({
   selector: 'cms-document-list',
   templateUrl: './document-list.component.html',
-  styleUrl: './document-list.component.css'
+  styleUrls: ['./document-list.component.css']
 })
 export class DocumentListComponent implements OnInit {
   documents: Document[] = [];
@@ -14,5 +14,10 @@ export class DocumentListComponent implements OnInit {
   }
   ngOnInit(){
     this.documents = this.documentService.getDocuments();
+    this.documentService.documentChangedEvent.subscribe(
+      (documents: Document[]) => {
+        this.documents = documents;
+      }
+    );
   }
 }
