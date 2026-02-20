@@ -60,4 +60,18 @@ export class DocumentService {
         const documentsListClone = this.documents.slice();
         this.documentListChangedEvent.next(documentsListClone);
     }
+
+    updateDocument(originalDocument: Document, newDocument: Document) {
+        if (!originalDocument || !newDocument || originalDocument === undefined || newDocument === undefined) {
+            return;
+        }
+        const pos = this.documents.indexOf(originalDocument);
+        if (pos < 0) {
+            return;
+        }
+        newDocument.id = originalDocument.id;
+        this.documents[pos] = newDocument;
+        const documentsListClone = this.documents.slice();
+        this.documentListChangedEvent.next(documentsListClone);
+    }
 }
