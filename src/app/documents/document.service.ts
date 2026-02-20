@@ -27,18 +27,6 @@ export class DocumentService {
         return this.documents.find(document => document.id === id);
     }
 
-    deleteDocument(document: Document){
-        if(!document){
-            return;
-        }
-        const pos = this.documents.indexOf(document);
-        if(pos < 0){
-            return;
-        }
-        this.documents.splice(pos, 1);
-        this.documentChangedEvent.emit(this.documents.slice());
-    }
-
     getMaxId(): number {
         let maxId = 0;
         this.documents.forEach(document => {
@@ -71,6 +59,19 @@ export class DocumentService {
         }
         newDocument.id = originalDocument.id;
         this.documents[pos] = newDocument;
+        const documentsListClone = this.documents.slice();
+        this.documentListChangedEvent.next(documentsListClone);
+    }
+
+    deleteDocument(document: Document) {
+        if (!document || document === undefined) {
+            return;
+        }
+        const pos = this.documents.indexOf(document);
+        if (pos < 0) {
+            return;
+        }
+        this.documents.splice(pos, 1);
         const documentsListClone = this.documents.slice();
         this.documentListChangedEvent.next(documentsListClone);
     }
