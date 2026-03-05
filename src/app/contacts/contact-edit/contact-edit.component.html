@@ -35,7 +35,7 @@
       </div>
 
       <div>
-        <p *ngIf="!email.valid && email.touched">Enter a valid Email address</p>
+        <p class="alert alert-danger" *ngIf="!email.valid && email.touched">Enter a valid Email address</p>
       </div>
 
       <div class="row">
@@ -56,7 +56,7 @@
       </div>
 
       <div>
-        <p *ngIf="!phone.valid && phone.touched">Enter a valid Phone number</p>
+        <p class="alert alert-danger" *ngIf="(!phone.valid) && phone.touched">Enter a valid Phone number</p>
       </div>
 
       <div class="row">
@@ -94,7 +94,7 @@
       </div>
 
       <div>
-        <p class="alert alert-danger" *ngIf="(!name.valid && name.touched) || (!email.valid && email.touched)">The Name and Email fields are required.</p>
+        <p class="alert alert-danger" *ngIf="(!name.valid) || (!email.valid)">The Name and Email fields are required.</p>
       </div>
 
       <div class="row">
