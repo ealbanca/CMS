@@ -44,10 +44,24 @@ ngOnInit(){
   });
 }
 
-onSubmit() {}
+onSubmit(form: NgForm) {
+  const value = form.value;
+  const newContact = new Contact(this.contact.id, value.name, value.email, value.phone, value.imageUrl, this.groupContacts);
+  if(this.editMode) {
+    if(this.originalContact) {
+      this.contactService.updateContact(this.originalContact, newContact);
+    }
+  } else {
+    this.contactService.addContact(newContact);
+  }
+  this.router.navigate(['/contacts']);
+}
 
-onCancel() {}
+onCancel() {
+  this.router.navigate(['/contacts']);
+}
 
-onRemoveItem(index: number) {}
+onRemoveItem(index: number) {
 
+}
 }

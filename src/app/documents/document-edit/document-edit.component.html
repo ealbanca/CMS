@@ -50,7 +50,7 @@
       </div>
 
       <div>
-        <p class="alert alert-danger" *ngIf="(!name.valid && name.touched) || (!url.valid && url.touched)">The Document Title and Document URL are required fields</p>
+        <p class="alert alert-danger" *ngIf="(!name.valid) || (!url.valid)">The Document Title and Document URL are required fields</p>
       </div>
 
       <div class="row">
