@@ -10,7 +10,8 @@
             class="form-control required"
             size="120"
             max="120"
-            name="name">
+            name="name"
+            [(ngModel)]="contact.name">
         </div>
       </div>
 
@@ -23,7 +24,8 @@
             class="form-control required"
             size="120"
             max="255"
-            name="email">
+            name="email"
+            [(ngModel)]="contact.email">
         </div>
       </div>
 
@@ -36,7 +38,8 @@
             class="form-control invalid"
             size="150"
             max="255"
-            name="phone">
+            name="phone"
+            [(ngModel)]="contact.phone">
 
         </div>
       </div>
@@ -50,7 +53,8 @@
             class="form-control"
             size="150"
             max="255"
-            name="imageUrl">
+            name="imageUrl"
+            [(ngModel)]="contact.imageUrl">
         </div>
       </div>
 
