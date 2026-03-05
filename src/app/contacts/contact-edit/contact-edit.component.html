@@ -34,6 +34,10 @@
         </div>
       </div>
 
+      <div>
+        <p *ngIf="!email.valid && email.touched">Enter a valid Email address</p>
+      </div>
+
       <div class="row">
         <div class="col-sm-12 form-group">
           <label for="phone">Phone:</label>
@@ -49,6 +53,10 @@
             pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*">
 
         </div>
+      </div>
+
+      <div>
+        <p *ngIf="!phone.valid && phone.touched">Enter a valid Phone number</p>
       </div>
 
       <div class="row">
@@ -79,7 +87,7 @@
                 <button class="btn btn-danger col-sm-2 deleteButton" (click)="onRemoveItem(i)">X</button>
               </div>
             </div>
-            <span class="dragMsg" *ngIf="groupContacts?.length < 1">Drag contacts in group here</span>
+            <span class="dragMsg" *ngIf="groupContacts.length < 1">Drag contacts in group here</span>
           </div>
 
         </div>
@@ -91,7 +99,7 @@
 
       <div class="row">
         <div class="col-xs-12 btn-toolbar">
-          <button class="btn btn-success" type="submit">Save</button>
+          <button class="btn btn-success" type="submit"[disabled]="!f.valid">Save</button>
           <button class="btn btn-primary" type="button" (click)="onCancel()">Cancel</button>
         </div>
       </div>
