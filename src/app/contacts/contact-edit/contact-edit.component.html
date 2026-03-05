@@ -11,7 +11,8 @@
             size="120"
             max="120"
             name="name"
-            [(ngModel)]="contact.name">
+            [(ngModel)]="contact.name"
+            #name="ngModel">
         </div>
       </div>
 
@@ -25,7 +26,8 @@
             size="120"
             max="255"
             name="email"
-            [(ngModel)]="contact.email">
+            [(ngModel)]="contact.email"
+            #email="ngModel">
         </div>
       </div>
 
@@ -39,7 +41,8 @@
             size="150"
             max="255"
             name="phone"
-            [(ngModel)]="contact.phone">
+            [(ngModel)]="contact.phone"
+            #phone="ngModel">
 
         </div>
       </div>
@@ -54,7 +57,8 @@
             size="150"
             max="255"
             name="imageUrl"
-            [(ngModel)]="contact.imageUrl">
+            [(ngModel)]="contact.imageUrl"
+            #imageUrl="ngModel">
         </div>
       </div>
 
