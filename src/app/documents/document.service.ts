@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter} from "@angular/core";
 import { Subject } from "rxjs";
+import{ HttpClient, HttpHeaders } from "@angular/common/http";
 
 import { Document } from "./document.model";
 import { MOCKDOCUMENTS } from "./MOCKDOCUMENTS";
@@ -14,9 +15,25 @@ export class DocumentService {
     documentChangedEvent = new EventEmitter<Document[]>();
     maxDocumentId: number;
 
-    constructor() {
+    constructor(private http: HttpClient) { 
         this.documents = MOCKDOCUMENTS; // Initialize with mock data from file
         this.maxDocumentId = this.getMaxId();
+    }
+
+    // Fetch documents from Firebase
+    fetchDocumentsFromServer() {
+        return this.http.get<Document[]>(
+            'https://cms-project-fca75-default-rtdb.firebaseio.com/documents.json').subscribe(
+                (documents: Document[]) => {
+                    this.documents = documents;
+                    this.maxDocumentId = this.getMaxId();
+                    this.documents.sort((a, b) => a.name.localeCompare(b.name));
+                    this.documentListChangedEvent.next(this.documents.slice());
+                },
+                (error) => {
+                    console.error('Error fetching documents from server:', error);
+                }
+            );
     }
 
     getDocuments(): Document[] {
@@ -74,5 +91,22 @@ export class DocumentService {
         this.documents.splice(pos, 1);
         const documentsListClone = this.documents.slice();
         this.documentListChangedEvent.next(documentsListClone);
+    }
+
+    storeDocuments() {
+        const documents = JSON.stringify(this.documents);
+        const headers = new HttpHeaders({'Content-Type': 'application/json'});
+        this.http.put(
+            'https://cms-project-fca75-default-rtdb.firebaseio.com/documents.json',
+            documents,
+            { headers: headers }
+        ).subscribe(
+            () => {
+                this.documentListChangedEvent.next(this.documents.slice());
+            },
+            (error) => {
+                console.error('Error storing documents to server:', error);
+            }
+        );
     }
 }
