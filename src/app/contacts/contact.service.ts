@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Contact } from './contact.model';
 import { MOCKCONTACTS } from './MOCKCONTACTS';
@@ -16,9 +17,21 @@ export class ContactService {
     maxContactId: number;
 
 
-    constructor() {
+    constructor(private http: HttpClient) {
         this.contacts = MOCKCONTACTS; // Initialize with mock data from file
         this.maxContactId = this.getMaxId();
+    }
+
+    storeContacts() {
+        const contacts = JSON.stringify(this.contacts);
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        this.http.put(
+            'https://cms-project-fca75-default-rtdb.firebaseio.com/contacts.json',
+            contacts,
+            { headers: headers }
+        ).subscribe(() => {
+            this.contactListChangedEvent.next(this.contacts.slice());
+        });
     }
 
     getContacts(): Contact[] {

@@ -20,21 +20,6 @@ export class DocumentService {
         this.maxDocumentId = this.getMaxId();
     }
 
-    // Fetch documents from Firebase
-    fetchDocumentsFromServer() {
-        return this.http.get<Document[]>(
-            'https://cms-project-fca75-default-rtdb.firebaseio.com/documents.json').subscribe(
-                (documents: Document[]) => {
-                    this.documents = documents;
-                    this.maxDocumentId = this.getMaxId();
-                    this.documents.sort((a, b) => a.name.localeCompare(b.name));
-                    this.documentListChangedEvent.next(this.documents.slice());
-                },
-                (error) => {
-                    console.error('Error fetching documents from server:', error);
-                }
-            );
-    }
     storeDocuments() {
         const documents = JSON.stringify(this.documents);
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -52,8 +37,19 @@ export class DocumentService {
         );
     }
 
-    getDocuments(): Document[] {
-        return this.documents.slice(); // Return a copy of the documents array
+    getDocuments() {
+        return this.http.get<Document[]>(
+            'https://cms-project-fca75-default-rtdb.firebaseio.com/documents.json').subscribe(
+                (documents: Document[]) => {
+                    this.documents = documents;
+                    this.maxDocumentId = this.getMaxId();
+                    this.documents.sort((a, b) => a.name.localeCompare(b.name));
+                    this.documentListChangedEvent.next(this.documents.slice());
+                },
+                (error) => {
+                    console.error('Error fetching documents from server:', error);
+                }
+            );
     }
 
     getDocument(id: string): Document | undefined {
