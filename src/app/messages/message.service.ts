@@ -17,6 +17,18 @@ export class MessageService {
         return this.messages.find(message => message.id === id);
     }
 
+    getMaxId(): number {
+        let maxId = 0;
+        this.messages.forEach(message => {
+            const currentId = parseInt(message.id);
+            if (currentId > maxId) {
+                maxId = currentId;
+            }
+        });
+        return maxId;
+    }
+
+
     addMessage(message: Message){
         this.messages.push(message);
         this.messageChangedEvent.emit(this.messages.slice());
