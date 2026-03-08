@@ -31,11 +31,26 @@ export class ContactService {
             { headers: headers }
         ).subscribe(() => {
             this.contactListChangedEvent.next(this.contacts.slice());
-        });
+        },
+            (error) => {
+                console.error('Error storing contacts to server:', error);
+            }
+        );
     }
 
-    getContacts(): Contact[] {
-        return this.contacts.slice(); // Return a copy of the contacts array
+    getContacts(){
+        return this.http.get<Contact[]>(
+            'https://cms-project-fca75-default-rtdb.firebaseio.com/contacts.json').subscribe(
+                (contacts: Contact[]) => {
+                    this.contacts = contacts;
+                    this.maxContactId = this.getMaxId();
+                    this.contacts.sort((a, b) => a.name.localeCompare(b.name));
+                    this.contactListChangedEvent.next(this.contacts.slice());
+                },
+                (error) => {
+                    console.error('Error fetching contacts from server:', error);
+                }
+            );
     }
     getContact(id: string): Contact | undefined {
         return this.contacts.find(contact => contact.id === id);
@@ -59,8 +74,7 @@ export class ContactService {
         this.maxContactId++;
         newContact.id = this.maxContactId.toString();
         this.contacts.push(newContact);
-        const contactsListClone = this.contacts.slice();
-        this.contactListChangedEvent.next(contactsListClone);
+        this.storeContacts();
     }
 
     updateContact(originalContact: Contact, newContact: Contact) {
@@ -73,8 +87,7 @@ export class ContactService {
         }
         newContact.id = originalContact.id;
         this.contacts[pos] = newContact;
-        const contactsListClone = this.contacts.slice();
-        this.contactListChangedEvent.next(contactsListClone);
+        this.storeContacts();
     }
     deleteContact(contact: Contact) {
         if (!contact || contact === undefined) {
@@ -85,7 +98,6 @@ export class ContactService {
             return;
         }
         this.contacts.splice(pos, 1);
-        const contactsListClone = this.contacts.slice();
-        this.contactListChangedEvent.next(contactsListClone);
+        this.storeContacts();
     }
 }
