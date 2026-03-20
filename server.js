@@ -14,16 +14,13 @@ const contactRoutes = require('./server/routes/contacts');
 const documentRoutes = require('./server/routes/documents');
 
 // establish a connection to the mongo database
-mongoose.connect('mongodb://localhost:27017/cms',
-   { useNewUrlParser: true }, (err, res) => {
-      if (err) {
-         console.log('Connection failed: ' + err);
-      }
-      else {
-         console.log('Connected to database!');
-      }
-   }
-);
+mongoose.connect('mongodb://localhost:27017/cms')
+  .then(() => {
+    console.log('Connected to database!');
+  })
+  .catch((err) => {
+    console.log('Connection failed: ' + err);
+  });
 
 
 // ... ADD CODE TO IMPORT YOUR ROUTING FILES HERE ... 
