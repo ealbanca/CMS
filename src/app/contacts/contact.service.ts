@@ -41,8 +41,8 @@ export class ContactService {
     getContacts() {
         return this.http.get<any>('http://localhost:3000/contacts');
     }
-    getContact(id: string): Contact | undefined {
-        return this.contacts.find(contact => contact.id === id);
+    getContact(id: string) {
+        return this.http.get<Contact>(`http://localhost:3000/contacts/${id}`);
     }
 
     getMaxId(): number {

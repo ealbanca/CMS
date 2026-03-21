@@ -35,8 +35,8 @@ export class MessageService {
     getMessages() {
         return this.http.get<any>('http://localhost:3000/messages');
     }
-    getMessage(id: string): Message | undefined {
-        return this.messages.find(message => message.id === id);
+    getMessage(id: string) {
+        return this.http.get<Message>(`http://localhost:3000/messages/${id}`);
     }
 
     getMaxId(): number {

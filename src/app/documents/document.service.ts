@@ -41,8 +41,8 @@ export class DocumentService {
         return this.http.get<Document[]>('http://localhost:3000/documents');
     }
 
-    getDocument(id: string): Document | undefined {
-        return this.documents.find(document => document.id === id);
+    getDocument(id: string) {
+        return this.http.get<Document>(`http://localhost:3000/documents/${id}`);
     }
 
     getMaxId(): number {
