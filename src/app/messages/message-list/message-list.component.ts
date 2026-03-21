@@ -12,21 +12,13 @@ export class MessageListComponent implements OnInit {
   messages: Message[] = [];
   private subscription: Subscription;
 
-  constructor(private messageService: MessageService) {
-  }
-  ngOnInit(){
-    this.messageService.getMessages();
-    this.subscription = this.messageService.messageChangedEvent
-      .subscribe(
-        (messages: Message[]) => {
-          this.messages = messages;
-        }
-      );
-      this.subscription = this.messageService.messageChangedEvent.subscribe(
-        (messages: Message[]) => {
-          this.messages = messages;
-        }
-      );
+  constructor(private messageService: MessageService) {}
+
+  ngOnInit() {
+    this.subscription = this.messageService.getMessages().subscribe((response: any) => {
+      // If backend returns { messages: [...] }
+      this.messages = response.messages ? response.messages : response;
+    });
   }
 
   onAddMessage(message: Message) {
@@ -34,6 +26,8 @@ export class MessageListComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

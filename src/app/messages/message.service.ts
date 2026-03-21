@@ -32,18 +32,8 @@ export class MessageService {
         );
     }*/
 
-    getMessages(){
-        return this.http.get<Message[]>(
-            'http://localhost:3000/messages').subscribe(
-                (messages: Message[]) => {
-                    this.messages = messages;
-                    this.messages.sort((a, b) => a.subject.localeCompare(b.subject));
-                    this.messageChangedEvent.emit(this.messages.slice());
-                },
-                (error) => {
-                    console.error('Error fetching messages from server:', error);
-                }
-            );        
+    getMessages() {
+        return this.http.get<any>('http://localhost:3000/messages');
     }
     getMessage(id: string): Message | undefined {
         return this.messages.find(message => message.id === id);
