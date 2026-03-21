@@ -81,7 +81,7 @@ export class DocumentService {
             .subscribe(
                 (responseData) => {
                     this.documents.push(responseData.document);
-                    // Removed call to sortAndSend();
+                    this.documentListChangedEvent.next(this.documents.slice());
                 }
             );
     }
@@ -104,7 +104,7 @@ export class DocumentService {
             .subscribe(
                 (response: any) => {
                     this.documents[pos] = newDocument;
-                    // Removed call to sortAndSend();
+                    this.documentListChangedEvent.next(this.documents.slice());
                 }
             );
     }
@@ -122,6 +122,7 @@ export class DocumentService {
         ).subscribe(
             (response: any) => {
                 this.documents.splice(pos, 1);
+                this.documentListChangedEvent.next(this.documents.slice());
             }
         );
     }
