@@ -20,7 +20,7 @@ export class DocumentService {
         this.maxDocumentId = this.getMaxId();
     }
 
-    storeDocuments() {
+    /*storeDocuments() {
         const documents = JSON.stringify(this.documents);
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         this.http.put(
@@ -35,25 +35,14 @@ export class DocumentService {
                 console.error('Error storing documents to server:', error);
             }
         );
-    }
+    }*/
 
     getDocuments() {
-        return this.http.get<Document[]>(
-            'http://localhost:3000/documents').subscribe(
-                (documents: Document[]) => {
-                    this.documents = documents;
-                    this.maxDocumentId = this.getMaxId();
-                    this.documents.sort((a, b) => a.name.localeCompare(b.name));
-                    this.documentListChangedEvent.next(this.documents.slice());
-                },
-                (error) => {
-                    console.error('Error fetching documents from server:', error);
-                }
-            );
+        return this.http.get<Document[]>('http://localhost:3000/documents');
     }
 
-    getDocument(id: string): Document | undefined {
-        return this.documents.find(document => document.id === id);
+    getDocument(id: string) {
+        return this.http.get<Document>(`http://localhost:3000/documents/${id}`);
     }
 
     getMaxId(): number {
@@ -81,7 +70,7 @@ export class DocumentService {
             .subscribe(
                 (responseData) => {
                     this.documents.push(responseData.document);
-                    this.documentListChangedEvent.next(this.documents.slice());
+                    this.sortAndSend();
                 }
             );
     }
@@ -95,16 +84,14 @@ export class DocumentService {
             return;
         }
         newDocument.id = originalDocument.id;
-        // Removed _id assignment (not in Document model)
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         this.http.put(
-            `http://localhost:3000/documents/${originalDocument.id}`,
-            newDocument,
-            { headers: headers })
+            'http://localhost:3000/documents/' + originalDocument.id,
+            newDocument,{ headers: headers })
             .subscribe(
                 (response: any) => {
                     this.documents[pos] = newDocument;
-                    this.documentListChangedEvent.next(this.documents.slice());
+                    this.sortAndSend();
                 }
             );
     }
@@ -118,13 +105,17 @@ export class DocumentService {
             return;
         }
         this.http.delete(
-            `http://localhost:3000/documents/${document.id}`
+            'http://localhost:3000/documents/' + document.id
         ).subscribe(
             (response: any) => {
                 this.documents.splice(pos, 1);
-                this.documentListChangedEvent.next(this.documents.slice());
+                this.sortAndSend();
             }
         );
+    }
+    private sortAndSend() {
+        this.documents.sort((a, b) => a.name.localeCompare(b.name));
+        this.documentListChangedEvent.next(this.documents.slice());
     }
 
 }

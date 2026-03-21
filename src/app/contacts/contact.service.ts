@@ -22,7 +22,7 @@ export class ContactService {
         this.maxContactId = this.getMaxId();
     }
 
-    storeContacts() {
+    /*storeContacts() {
         const contacts = JSON.stringify(this.contacts);
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         this.http.put(
@@ -36,24 +36,13 @@ export class ContactService {
                 console.error('Error storing contacts to server:', error);
             }
         );
-    }
+    }*/
 
-    getContacts(){
-        return this.http.get<Contact[]>(
-            'http://localhost:3000/contacts').subscribe(
-                (contacts: Contact[]) => {
-                    this.contacts = contacts;
-                    this.maxContactId = this.getMaxId();
-                    this.contacts.sort((a, b) => a.name.localeCompare(b.name));
-                    this.contactListChangedEvent.next(this.contacts.slice());
-                },
-                (error) => {
-                    console.error('Error fetching contacts from server:', error);
-                }
-            );
+    getContacts() {
+        return this.http.get<any>('http://localhost:3000/contacts');
     }
-    getContact(id: string): Contact | undefined {
-        return this.contacts.find(contact => contact.id === id);
+    getContact(id: string) {
+        return this.http.get<Contact>(`http://localhost:3000/contacts/${id}`);
     }
 
     getMaxId(): number {
