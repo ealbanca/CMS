@@ -22,7 +22,7 @@ export class ContactService {
         this.maxContactId = this.getMaxId();
     }
 
-    storeContacts() {
+    /*storeContacts() {
         const contacts = JSON.stringify(this.contacts);
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         this.http.put(
@@ -36,7 +36,7 @@ export class ContactService {
                 console.error('Error storing contacts to server:', error);
             }
         );
-    }
+    }*/
 
     getContacts(){
         return this.http.get<Contact[]>(

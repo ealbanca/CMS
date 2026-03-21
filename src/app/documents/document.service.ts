@@ -20,7 +20,7 @@ export class DocumentService {
         this.maxDocumentId = this.getMaxId();
     }
 
-    storeDocuments() {
+    /*storeDocuments() {
         const documents = JSON.stringify(this.documents);
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         this.http.put(
@@ -35,7 +35,7 @@ export class DocumentService {
                 console.error('Error storing documents to server:', error);
             }
         );
-    }
+    }*/
 
     getDocuments() {
         return this.http.get<Document[]>(

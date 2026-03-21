@@ -16,7 +16,7 @@ export class MessageService {
         this.messages = MOCKMESSAGES; // Initialize with mock data from file
     }
 
-    storeMessages() {
+    /*storeMessages() {
         const messages = JSON.stringify(this.messages);
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         this.http.put(
@@ -30,7 +30,7 @@ export class MessageService {
             console.error('Error storing messages to server:', error);
         }
         );
-    }
+    }*/
 
     getMessages(){
         return this.http.get<Message[]>(
