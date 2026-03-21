@@ -45,4 +45,34 @@ router.post('/', (req, res, next) => {
     });
 });
 
+// Update an existing document
+router.put('/:id', (req, res, next) => {
+  Document.findOne({ id: req.params.id })
+    .then(document => {
+        document.name = req.body.name;
+        document.description = req.body.description;
+        document.url = req.body.url;
+        Document.updateOne({ id: req.params.id }, document)
+            .then(result => {
+                res.status(204).json({
+                    message: 'Document updated successfully'
+                });
+            })
+            .catch(error => {
+                res.status(500).json({
+                    message: 'An error occurred',
+                    error: error
+                });
+            });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: 'Document not found.',
+        error: { document: 'Document not found' }
+      });
+    });
+});
+
+
+
 module.exports = router; 
