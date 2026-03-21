@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { Subject } = require('rxjs');
 
 const messageSchema = mongoose.Schema({
     id: { type: String, required: true },
