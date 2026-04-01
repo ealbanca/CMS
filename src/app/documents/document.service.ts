@@ -109,7 +109,7 @@ export class DocumentService {
                 });
             });
     }
-    private sortAndSend() {
+    public sortAndSend() {
         this.documents.sort((a, b) => a.name.localeCompare(b.name));
         this.documentListChangedEvent.next(this.documents.slice());
     }
