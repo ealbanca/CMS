@@ -20,6 +20,23 @@ router.get('/', (req, res, next) => {
     });
 });
 
+// Get a single message by id
+router.get('/:id', (req, res, next) => {
+  Message.findOne({ id: req.params.id })
+    .then(message => {
+      if (!message) {
+        return res.status(404).json({ message: 'Message not found' });
+      }
+        res.status(200).json(message);
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: 'An error occurred',
+            error: error
+        });
+    });
+});
+
 // Create a new message
 router.post('/', (req, res, next) => {
   const maxMessageId = sequenceGenerator.nextId("messages");
