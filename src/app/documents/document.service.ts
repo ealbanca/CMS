@@ -100,18 +100,14 @@ export class DocumentService {
         if (!document || document === undefined) {
             return;
         }
-        const pos = this.documents.findIndex(d => d.id === document.id);
-        if (pos < 0) {
-            return;
-        }
-        this.http.delete(
-            'http://localhost:3000/documents/' + document.id
-        ).subscribe(
-            (response: any) => {
-                this.documents.splice(pos, 1);
-                this.sortAndSend();
-            }
-        );
+        this.http.delete('http://localhost:3000/documents/' + document.id)
+            .subscribe((response: any) => {
+                // After deletion, fetch the updated list from backend
+                this.getDocuments().subscribe((res: any) => {
+                    this.documents = res.documents ? res.documents : res;
+                    this.sortAndSend();
+                });
+            });
     }
     private sortAndSend() {
         this.documents.sort((a, b) => a.name.localeCompare(b.name));
