@@ -12,6 +12,7 @@ import { ContactService } from '../contact.service';
 export class ContactListComponent implements OnInit, OnDestroy {
   contacts: Contact[] = [];
   private subscription: Subscription;
+  private contactsChangedSubscription: Subscription;
   term: string = '';
 
   constructor(private contactService: ContactService) {
@@ -21,10 +22,16 @@ export class ContactListComponent implements OnInit, OnDestroy {
       // If backend returns { contacts: [...] }
       this.contacts = response.contacts ? response.contacts : response;
     });
+    this.contactsChangedSubscription = this.contactService.contactListChangedEvent.subscribe((contacts: Contact[]) => {
+      this.contacts = contacts;
+    });
   }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.contactsChangedSubscription) {
+      this.contactsChangedSubscription.unsubscribe();
     }
   }
 
