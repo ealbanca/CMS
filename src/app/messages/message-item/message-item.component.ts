@@ -13,7 +13,8 @@ export class MessageItemComponent implements OnInit{
    messageSender: string;
    constructor(private contactService: ContactService) {}
    ngOnInit() {
-      const contact: Contact | undefined = this.contactService.getContact(this.message.sender);
-      this.messageSender = contact ? contact.name : 'Unknown Sender';
+         this.contactService.getContact(this.message.sender).subscribe(contact => {
+            this.messageSender = contact ? contact.name : 'Unknown Sender';
+         });
    }
 }

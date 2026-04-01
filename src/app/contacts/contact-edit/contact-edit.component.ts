@@ -30,16 +30,18 @@ ngOnInit(){
       this.editMode = false;
       return;
     } else {
-      this.originalContact = this.contactService.getContact(this.id);
-      if(this.originalContact === undefined || this.originalContact === null) {
-        return;
-      } else {
-        this.editMode = true;
-        this.contact = JSON.parse(JSON.stringify(this.originalContact));
-        if(this.contact.group) {
-          this.groupContacts = JSON.parse(JSON.stringify(this.contact.group));
+      this.contactService.getContact(this.id).subscribe(contact => {
+        this.originalContact = contact;
+        if(this.originalContact === undefined || this.originalContact === null) {
+          return;
+        } else {
+          this.editMode = true;
+          this.contact = JSON.parse(JSON.stringify(this.originalContact));
+          if(this.contact.group) {
+            this.groupContacts = JSON.parse(JSON.stringify(this.contact.group));
+          }
         }
-      }
+      });
     }
   });
 }

@@ -29,14 +29,16 @@ export class DocumentEditComponent implements OnInit {
         return;
       }
       else {
-        this.originalDocument = this.documentService.getDocument(id);
-        if (this.originalDocument === undefined || this.originalDocument === null) {
-          return;
-        }
-        else {
-          this.editMode = true;
-          this.document = JSON.parse(JSON.stringify(this.originalDocument));
-        }
+        this.documentService.getDocument(id).subscribe(document => {
+          this.originalDocument = document;
+          if (this.originalDocument === undefined || this.originalDocument === null) {
+            return;
+          }
+          else {
+            this.editMode = true;
+            this.document = JSON.parse(JSON.stringify(this.originalDocument));
+          }
+        });
       }
     });  
   }
