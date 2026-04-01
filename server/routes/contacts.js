@@ -21,6 +21,25 @@ router.get('/', (req, res, next) => {
     });
 });
 
+// Get a single contact by id
+router.get('/:id', (req, res, next) => {
+  Contact.findOne({ id: req.params.id })
+    .populate('group')
+    .then(contact => {
+      if (!contact) {
+        return res.status(404).json({ message: 'Contact not found' });
+      }
+      res.status(200).json(contact);
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: 'An error occurred',
+        error: error
+      });
+    });
+});
+
+
 // Create a new contact
 router.post('/', (req, res, next) => {
   const maxContactId = sequenceGenerator.nextId("contacts");
