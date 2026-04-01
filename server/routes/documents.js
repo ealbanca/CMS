@@ -20,6 +20,24 @@ router.get('/', (req, res, next) => {
     });
 });
 
+// Get a single document by id
+router.get('/:id', (req, res, next) => {
+  Document.findOne({ id: req.params.id })
+    .then(document => {
+      if (!document) {
+        return res.status(404).json({ message: 'Document not found' });
+      }
+      res.status(200).json(document);
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: 'An error occurred',
+        error: error
+      });
+    });
+});
+
+
 // Create a new document
 router.post('/', (req, res, next) => {
   const maxDocumentId = sequenceGenerator.nextId("documents");
